@@ -1,0 +1,20 @@
+﻿version: '3.7'
+
+services:
+  mongo-db:
+    container_name: search-mongo-db
+    image: mongo:5.0.3
+    volumes:
+      - srch_mongo_db_data:/data/db
+      - srch_mongo_configdb:/data/configdb
+    ports:
+      - 27443:27017
+    restart: unless-stopped
+    #command: [--auth]
+
+volumes:
+  srch_mongo_db_data:
+#    external: true
+  srch_mongo_configdb:
+#    external: true
+

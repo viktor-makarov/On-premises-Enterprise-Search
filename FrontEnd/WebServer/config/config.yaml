@@ -1,0 +1,16 @@
+--- # Main config
+  DOMAIN: search.domain.com
+  AD:
+    baseDN: dc=domain,dc=com
+    password: password
+    url: ldap://addc-2.domain.com:389
+    username: search_orchestrator@domain.com
+  MONGODB:
+    url: mongodb://localhost:27443
+  ELASTIC:
+    address: localhost:9200
+    login: elastic
+    pass: password
+    protocol: https
+    index_alias: enterprise_search
+  

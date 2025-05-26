@@ -1,0 +1,45 @@
+version: '3.7'
+#Перед запуском контейнера нужно подготовит кофигурационные файлы
+#1. Создайте папку для конфигурационных файлов на диске хостовой машины например C:\config\search
+#2. Смонтируйте эту папку в папку /config внутр контейнера
+#3. Положите в эт папку файл config.yaml со следующими параметрами: SVAULT_ADDRESS, SEARCH_APPS_SVAULT_ROLEID, SEARCH_APPS_SVAULT_SECRETID,чтобы получать данные из vault
+#4. Создайте в kerberos distribution center SPN для сервиса и сформируйте для этого SPN file *.keytab
+#5. Положите полученный *.key в конфигурационную папку и укажите его название в строчке command ниже. Эта команда при запуске контейнера копирует файл из каталога /config в /etc и меняет название на krb5.keytab
+#6. Положите также в папку файл krb5.conf с настройками kerberos realm
+
+services:
+  srchapps-prod:
+    image: srchapps:1.0.5
+    container_name: srchapps-prod
+    command: [node, ./server/server.js]
+    ports:
+      - "2443:8000"
+    volumes:
+      - \FrontEnd\WebServer\config:/config 
+      - \FrontEnd\WebServer\ssl:/etc/ssl
+      - \FrontEnd\WebServer\config\krb5.conf:/etc/krb5.conf
+      - \FrontEnd\WebServer\config\krb5.ktab:/etc/krb5.keytab
+      - remote_volume1:/${remote_volume1_name}
+      - remote_volume2:/${remote_volume2_name}
+    environment:
+      NODE_ENV: 'production'
+      MONGO_DB: 'srch_prod'
+    restart: unless-stopped
+    networks:
+      - srchapps_network_prod
+
+networks:
+  srchapps_network_prod:
+    name: srchapps_network_prod
+    driver: bridge
+volumes:
+  remote_volume1:
+    driver_opts:
+      type: cifs
+      o: iocharset=utf8,username=${REMOTE_LOGIN},password=${REMOTE_PASS},vers=3.0
+      device: ${remote_volume1_address}
+  remote_volume2:
+    driver_opts:
+      type: cifs
+      o: iocharset=utf8,username=${REMOTE_LOGIN},password=${REMOTE_PASS},vers=3.0
+      device: ${remote_volume2_address}

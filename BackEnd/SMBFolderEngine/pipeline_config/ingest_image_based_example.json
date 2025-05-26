@@ -1,0 +1,36 @@
+﻿{
+  "file_types":[ "*.pdf", "*.bmp", "*.gif", "*.png", "*.jpg", "*.jpeg", "*.tif", "*.tiff" ],
+  "file_category":"image",
+  "Source": "Сетевая папка",
+  "Multithred":true,
+  "Mongo":{"url":"mongodb://localhost:27443","db":"srch_indexing"},
+  "Tika":"http://localhost:9998",
+  "LogDir": "BackEnd\\SMBFolderEngine\\logs",
+  "TempDir": "BackEnd\\SMBFolderEngine\\temp",
+  "homePath": "BackEnd\\SMBFolderEngine",
+  "AppType": "Index",
+  "IndexPairs": [
+    {
+      "enterprise_search_folder_lmz": {
+        "folderName": "Обмен: ЛМЗ",
+        "path": [  "\\\\share-1.prs-va.ru\\SMB-1\\ООО ЛМЗ" ]
+      }
+    },
+    {
+      "enterprise_search_folder_niistali": {
+        "folderName": "Обмен: НИИ СТАЛИ",
+        "path": [ "\\\\share-1.prs-va.ru\\SMB-1\\АО НИИ стали" ]
+      }
+    },
+    {
+      "enterprise_search_folder_veda": {
+        "folderName": "Обмен: ВЕДА",
+        "path": [ "\\\\share-1.prs-va.ru\\SMB-1\\ООО ВедаПроект" ]
+      }
+    }
+
+  ],
+  "MaxThreadLoad": [ 0.8, 0.945 ],
+  "MaxThreads": [ 4, 2, 1 ]
+
+}

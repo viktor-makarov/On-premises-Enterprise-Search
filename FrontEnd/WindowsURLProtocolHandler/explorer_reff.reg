@@ -1,0 +1,15 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\explorerreff]
+"URL Protocol"=""
+@="URL:Myproto Protocol"
+
+[HKEY_CLASSES_ROOT\explorerreff\DefaultIcon]
+@="OpenFileOrDirectoryExplorer.exe,1"
+
+[HKEY_CLASSES_ROOT\explorerreff\shell]
+
+[HKEY_CLASSES_ROOT\explorerreff\shell\open]
+
+[HKEY_CLASSES_ROOT\explorerreff\shell\open\command]
+@="\"C:\\Search\\WindowsExplorerHandler.exe\" \"%1\""

@@ -1,0 +1,124 @@
+PUT _template/enterprise_search_folder_engine_template?include_type_name
+{
+  "order": 0,
+  "index_patterns": [
+    "enterprise_search_folder*"
+  ],
+  "settings": {
+    "index": {
+      "analysis": {
+        "filter": {
+          "russian_stemmer": {
+            "type": "stemmer",
+            "language": "russian"
+          },
+          "russian_synonym": {
+            "type": "synonym",
+            "synonyms_path": "dicts/synonims.txt"
+          },
+          "russian_stop": {
+            "type": "stop",
+            "stopwords_path": "dicts/stopwords.txt"
+          },
+          "russian_keywords": {
+            "type": "keyword_marker",
+            "keywords_path": "dicts/keywords.txt"
+          }
+        },
+        "char_filter": {
+          "my_mappings_cheating_charters": {
+            "type": "mapping",
+            "mappings_path": "dicts/charfilter.txt"
+          }
+        },
+        "analyzer": {
+          "NGram_analyzer": {
+            "filter": [
+              "lowercase"
+            ],
+            "tokenizer": "NGram_tokenizer"
+          },
+          "rebuilt_russian": {
+            "filter": [
+              "lowercase",
+              "russian_stop",
+              "russian_keywords",
+              "russian_stemmer",
+              "russian_synonym",
+              "unique"
+            ],
+            "char_filter": [
+              "my_mappings_cheating_charters"
+            ],
+            "tokenizer": "standard"
+          },
+          "rebuilt_russian_short": {
+            "filter": [
+              "lowercase",
+              "russian_stop",
+              "russian_keywords",
+              "russian_stemmer",
+              "russian_synonym"
+            ],
+            "char_filter": [
+              "my_mappings_cheating_charters"
+            ],
+            "tokenizer": "standard"
+          }
+        },
+        "tokenizer": {
+          "NGram_tokenizer": {
+            "type": "ngram",
+            "min_gram": "3",
+            "max_gram": "4"
+          }
+        }
+      },
+      "number_of_shards": "5",
+      "number_of_replicas": "1"
+    }
+  },
+  "aliases": {
+    "enterprise_search": {}
+  },
+  "mappings": {
+    "_doc": {
+      "_source": {
+        "excludes": [],
+        "includes": [],
+        "enabled": true
+      },
+      "_routing": {
+        "required": false
+      },
+      "dynamic": true,
+      "numeric_detection": false,
+      "date_detection": true,
+      "dynamic_date_formats": [
+        "strict_date_optional_time",
+        "yyyy/MM/dd HH:mm:ss Z||yyyy/MM/dd Z"
+      ],
+      "properties": {
+        "file_attachments_list": {
+          "analyzer": "rebuilt_russian_short",
+          "type": "text"
+        },
+        "file_content_ru": {
+          "analyzer": "rebuilt_russian",
+          "type": "text"
+        },
+        "file_folder": {
+          "analyzer": "rebuilt_russian_short",
+          "type": "text"
+        },
+        "filename": {
+          "analyzer": "rebuilt_russian_short",
+          "type": "text"
+        },
+        "filename_keyword": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}

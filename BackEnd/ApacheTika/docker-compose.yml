@@ -1,0 +1,22 @@
+﻿version: '3.7'
+
+services:
+  srch_apache_tika:
+    image: lexpredict/tika-server
+    ports:
+    - '9998:9998'
+    volumes:
+    - .\tika-config.xml:/tika-config.xml
+    restart: unless-stopped
+  srch_apache_tika2:
+    #image: apache/tika:2.3.0-full
+    image: lexpredict/tika-server
+    ports:
+    - '9997:9998'
+    volumes:
+    - .\tika-config.xml:/tika-config.xml
+    restart: unless-stopped
+
+
+
+

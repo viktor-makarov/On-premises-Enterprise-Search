@@ -1,0 +1,35 @@
+# Elasticsearch client for search engine connectivity
+elasticsearch>=7.14.0,<8.0.0
+
+# MongoDB client for logging and statistics
+pymongo>=4.0.0
+
+# Apache Tika Python client for document parsing
+tika>=2.0.0
+
+# XML parsing libraries
+lxml>=4.6.0
+
+# OCR (Optical Character Recognition) support
+pytesseract>=0.3.8
+
+# PDF processing and conversion
+pdf2image>=2.1.0
+
+# Image processing
+Pillow>=8.0.0
+img2pdf>=0.4.0
+
+# HTML parsing for web content
+beautifulsoup4>=4.9.0
+
+# System monitoring and process management
+psutil>=5.8.0
+
+# HTTP requests with SSL support (used for Tika server communication)
+requests>=2.25.0
+
+# Windows-specific dependencies (for Active Directory integration)
+# These are optional and only work on Windows systems
+pywin32>=227; sys_platform == "win32"
+

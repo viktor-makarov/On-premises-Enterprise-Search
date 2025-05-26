@@ -1,0 +1,15 @@
+﻿{
+  "Indexes": [ 
+"enterprise_search_folder_finance", 
+"enterprise_search_folder_common", 
+"enterprise_search_folder_hr", 
+"enterprise_search_folder_dev",
+"enterprise_search_folder_it",
+"enterprise_search_folder_legal",
+"enterprise_search_folder_strategy",
+"enterprise_search_folder_lmz",
+"enterprise_search_folder_niistali",
+"enterprise_search_folder_veda"
+ ]
+
+}
