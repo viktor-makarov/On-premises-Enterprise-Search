@@ -13,6 +13,7 @@ A minimum viable product (MVP) for an on-premises enterprise search solution tha
 - [Pipeline Configuration Reference](#-pipeline-configuration-reference)
 - [Technical Debt](#technical-debt)
 - [Future Improvements](#future-improvements)
+- [Performance and Usage Insights](#performance-and-usage-insights)
 - [Contributing](#contributing)
 
 ## Demo View
@@ -748,21 +749,22 @@ To plan Elasticsearch index sizing based on the total size of indexed folders, r
 
 | Source Folder Size (GB) | Files in Folder | Index Size (GB) | Files in Index | Storage Ratio | File Processing Ratio |
 |-------------------------|-----------------|-----------------|----------------|---------------|----------------------|
-| 503                     | 197,002         | 4               | 137,153        | 125:1         | 1.44:1               |
+| 503                     | 197,002         | 4               | 137,153        | 125:1         | 70%               |
+| 153                     | 42,622          | 0.63            | 35,412         | 242:1         | 83%               |
 
 **Key Insights:**
-- **Storage efficiency**: Elasticsearch indexes are approximately 125x smaller than source folders
-- **File processing**: Roughly 70% of files are successfully indexed (remaining files may be unsupported formats or corrupted)
+- **Storage efficiency**: Elasticsearch indexes are approximately 125x - 242x smaller than source folders
+- **File processing**: Roughly 70% - 83% of files are successfully indexed (remaining files may be unsupported formats or corrupted)
 
 ### Ingestion Throughput
 
 Use these performance benchmarks to estimate initial and ongoing ingestion timelines:
 
-| Processing Type | Source Size (GB) | Files Processed | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
+| Processing Type | Source Size (GB) | Files In Folder | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
 |----------------|------------------|-----------------|------------------|-----------------|-------------------|
 | Initial PDF ingestion | TBA | TBA | TBA | TBA | TBA |
 | Initial non-image ingestion | TBA | TBA | TBA | TBA | TBA |
-| Incremental updates | TBA | TBA | TBA | TBA | TBA |
+| Incremental updates | 153 | 42,622  | 0.38 | 402| 112 163 |
 
 **Note:** Performance varies significantly based on:
 - Hardware specifications (CPU cores, RAM, storage type)
