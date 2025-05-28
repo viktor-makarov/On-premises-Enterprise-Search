@@ -771,7 +771,7 @@ The following analysis is based on a test folder containing 153 GB and 42,622 fi
 
 | Processing Type | File Size (GB) | Share of Total | Files Processed | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
 |----------------|----------------|----------------|-----------------|------------------|-----------------|-------------------|
-| **Initial image ingestion** [1] | 42.24 | 27.6% | 30,433 | TBA | 0.32 | 238 |
+| **Initial image ingestion in 3 concurrent threads** [1] | 42.24 | 27.6% | 30,433 | TBA | 0.32 | 238 |
 | **Initial non-image ingestion** [2] | 4.7 | 3.0% | 4,649 | 7.8 | 0.6 | 594 |
 | **Updates (all file types)** | 153.0 | 100% | 42,622 | 0.38 | 402 | 112,163 |
 
