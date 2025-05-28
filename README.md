@@ -242,8 +242,6 @@ The ingestion engine uses Tesseract OCR through the Python library `pytesseract`
    tesseract --version
    ```
 
-
-
 ### 🐍 Python Dependencies
 
 **Version Compatibility:** Python 3.9 or higher is required.
@@ -382,20 +380,27 @@ $result | Format-Table
 Execute this Elasticsearch query to get indexed document counts:
 
 ```json
-GET your_index_alias/_search
+GET rti_search/_search
 {
   "size": 0,
   "aggs": {
     "folder_name": {
       "terms": {
         "field": "folder_name.keyword",
-        "size": 1000
+        "size": 1000                  
       },
       "aggs": {
         "file_type": {
           "terms": {
             "field": "format.keyword",
             "size": 100
+          },
+          "aggs": {
+            "unique_docs": {
+              "cardinality": {
+                "field": "id.keyword"
+              }
+            }
           }
         }
       }
@@ -403,6 +408,8 @@ GET your_index_alias/_search
   }
 }
 ```
+
+**Note:** Large files may be split into multiple separate documents during indexing. To get the actual number of files indexed, refer to the `unique_docs` value in the aggregation results.
 
 Compare the PowerShell script results with the Elasticsearch aggregation results to ensure all files were successfully ingested.
 
@@ -760,17 +767,26 @@ To plan Elasticsearch index sizing based on the total size of indexed folders, r
 
 Use these performance benchmarks to estimate initial and ongoing ingestion timelines:
 
-| Processing Type | Source Size (GB) | Files In Folder | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
+The below table representa analysis of a folder with total 153 GB in size containing 42 622 files.
+
+| Processing Type | File Size (GB) | Share of total folder size | Files In Folder | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
 |----------------|------------------|-----------------|------------------|-----------------|-------------------|
-| Initial PDF ingestion | TBA | TBA | TBA | TBA | TBA |
-| Initial non-image ingestion | TBA | TBA | TBA | TBA | TBA |
-| Incremental updates | 153 | 42,622  | 0.38 | 402| 112 163 |
+| Initial image ingestion [1]     | 42,24 | 27,6%  | 30,433 | TBA  | 0,32 | 238     |
+| Initial non-image ingestion [2] | 4,7 | 3% | 4,649   | 7,8  | 0,6 | 594     |
+| Updates (all file types)        | 153 | 100% | 42,622  | 0.38 | 402 | 112,163 |
+
+[1] - pdf, bmp, gif, png, jpg, jpeg, tif, tiff
+[2] - docx, doc, pptx, ppt, xlsx,  xls, xlsm, xlsb, rtf, txt, json, js
 
 **Note:** Performance varies significantly based on:
 - Hardware specifications (CPU cores, RAM, storage type)
 - Network bandwidth to source folders
 - File types and sizes
 - OCR processing requirements
+
+I order to make a forcast, of how long the initial ingestion process is goung to last, consider the following factors:
+- Folder size is a bore reliable banchbark than number of files, as ingestion duration heavily denends on file size
+- Overall size of a folder (files of all types) is not representative, as it may contain a lot files out of the ingestion scope. You need to calcualte size of particular file types you are going to ingest. For simplisity, I is ok to limit calculatino with the following file types, as they make up 80%+ of all file types deemed for indexing: pdf, tif, jpg, png, docx, doc, pptx, ppt, xlsx, xls.
 
 ### User Search Patterns
 
