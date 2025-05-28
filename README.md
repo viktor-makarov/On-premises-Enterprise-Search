@@ -767,26 +767,31 @@ To plan Elasticsearch index sizing based on the total size of indexed folders, r
 
 Use these performance benchmarks to estimate initial and ongoing ingestion timelines:
 
-The below table representa analysis of a folder with total 153 GB in size containing 42 622 files.
+The following analysis is based on a test folder containing 153 GB and 42,622 files:
 
-| Processing Type | File Size (GB) | Share of total folder size | Files In Folder | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
-|----------------|------------------|-----------------|------------------|-----------------|-------------------|
-| Initial image ingestion [1]     | 42,24 | 27,6%  | 30,433 | TBA  | 0,32 | 238     |
-| Initial non-image ingestion [2] | 4,7 | 3% | 4,649   | 7,8  | 0,6 | 594     |
-| Updates (all file types)        | 153 | 100% | 42,622  | 0.38 | 402 | 112,163 |
+| Processing Type | File Size (GB) | Share of Total | Files Processed | Duration (Hours) | Speed (GB/hour) | Speed (Files/hour) |
+|----------------|----------------|----------------|-----------------|------------------|-----------------|-------------------|
+| **Initial image ingestion** [1] | 42.24 | 27.6% | 30,433 | TBA | 0.32 | 238 |
+| **Initial non-image ingestion** [2] | 4.7 | 3.0% | 4,649 | 7.8 | 0.6 | 594 |
+| **Updates (all file types)** | 153.0 | 100% | 42,622 | 0.38 | 402 | 112,163 |
 
-[1] - pdf, bmp, gif, png, jpg, jpeg, tif, tiff
-[2] - docx, doc, pptx, ppt, xlsx,  xls, xlsm, xlsb, rtf, txt, json, js
+**File Type Categories:**
+- [1] **Image files:** pdf, bmp, gif, png, jpg, jpeg, tif, tiff
+- [2] **Non-image files:** docx, doc, pptx, ppt, xlsx, xls, xlsm, xlsb, rtf, txt, json, js
 
-**Note:** Performance varies significantly based on:
+#### Forecasting Initial Ingestion Duration
+
+To estimate ingestion time for your environment, consider these key factors:
+
+- **Use folder size** rather than file count, as ingestion duration heavily depends on file size
+- **Focus on target file types** rather than total folder size, since many files in the folder may be outside the ingestion scope
+- **To simplify calculation** focus on the following file types as they represent 80%+ of typical indexing workload: pdf, tif, jpg, png, docx, doc, pptx, ppt, xlsx, xls
+
+**Performance Variables:**
 - Hardware specifications (CPU cores, RAM, storage type)
 - Network bandwidth to source folders
-- File types and sizes
-- OCR processing requirements
-
-I order to make a forcast, of how long the initial ingestion process is goung to last, consider the following factors:
-- Folder size is a bore reliable banchbark than number of files, as ingestion duration heavily denends on file size
-- Overall size of a folder (files of all types) is not representative, as it may contain a lot files out of the ingestion scope. You need to calcualte size of particular file types you are going to ingest. For simplisity, I is ok to limit calculatino with the following file types, as they make up 80%+ of all file types deemed for indexing: pdf, tif, jpg, png, docx, doc, pptx, ppt, xlsx, xls.
+- File size distribution and complexity
+- OCR processing requirements for image-based documents
 
 ### User Search Patterns
 
