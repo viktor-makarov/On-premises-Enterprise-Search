@@ -114,8 +114,7 @@ Before setting up the enterprise search solution, ensure you have:
 **Version Compatibility:** This project has been tested with Elasticsearch version 7.14.
 
 ##### Step 1: Install Elasticsearch
-
-You can use any Elasticsearch instance. For quick setup, consider using the [official Docker solution](https://www.elastic.co/guide/en/elasticsearch/reference/7.14/docker.html).
+You can use any Elasticsearch instance. For quick setup, consider using the [official Docker solution](https://www.elastic.co/guide/en/elasticsearch/reference/7.14/docker.html). It is also recommended to set up Kibana for Elasticsearch administration, as it provides the most convenient management interface.
 
 **HTTPS MODE** - Ensure your Elasticsearch instance accepts HTTPS requests to guarantee smooth communication with the main web application. You should issue self-signed certificates for Elasticsearch, which will be needed to set up the main web application later.
 
@@ -211,6 +210,8 @@ This project uses Apache Tika API server deployed via the public Docker image [l
 
 The ingestion engine uses Tesseract OCR through the Python library `pytesseract`, which requires the Tesseract OCR engine to be installed as a system dependency.
 
+**Platform Requirements:** Since the ingestion engine is Windows-only, Tesseract OCR must be installed on the same Windows machine where the ingestion pipeline will run.
+
 #### Windows Installation
 
 1. **Download Tesseract OCR:**
@@ -245,6 +246,7 @@ The ingestion engine uses Tesseract OCR through the Python library `pytesseract`
 ### 🐍 Python Dependencies
 
 **Version Compatibility:** Python 3.9 or higher is required.
+**Platform Requirements:** Since the ingestion engine is Windows-only, Python Dependencies must be installed on the same Windows machine where the ingestion pipeline will run.
 
 #### Step 1: Install Dependencies
 
@@ -269,6 +271,8 @@ python -c "import pytesseract; print('Dependencies installed successfully')"
 ### 📁 SMB Folder Ingestion
 
 **Version Compatibility:** This project has been tested with Python 3.9.7.
+
+**Platform Requirements:** The ingestion scripts are currently Windows-only, utilizing Windows-specific libraries such as `pywin32` for SMB folder access and authentication.
 
 #### Prerequisites
 
@@ -747,6 +751,7 @@ The following issues need to be addressed:
 - [ ] Improve SMB folder ingestion engine (move from round-robin to source events handling)
 - [ ] Migrate ingestion process orchestration to Apache Airflow
 - [ ] Improve OCR of low quality images: Consider Google Document AI as Tesseract alternative, purchase ABBYY FineReader SDK, or enhance Tesseract performance through additional training
+- [ ] Improve ingestion pipeline to work on Linux as well (e.g. )
 
 ## Performance and Usage Insights
 
